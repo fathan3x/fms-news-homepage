@@ -3,11 +3,13 @@ import { cn } from "cn";
 
 import logo from "./assets/logo.svg";
 import menu from "./assets/icon-menu.svg";
+import menuClose from "./assets/icon-menu-close.svg";
 import web3 from "./assets/image-web-3-desktop.jpg";
 
 import retroPc from "./assets/image-retro-pcs.jpg";
 import topLaptops from "./assets/image-top-laptops.jpg";
 import gamingGrowth from "./assets/image-gaming-growth.jpg";
+import { useState } from "preact/hooks";
 
 export function App() {
   const style = {
@@ -22,8 +24,11 @@ export function App() {
     "link-3": "text-black hover:text-[hsl(5,85%,63%)]",
     button: "bg-[hsl(5,85%,63%)] hover:bg-[hsl(240,100%,5%)] hover:text-white",
   };
+  const [isMobileHeaderOpen, setIsMobileHeaderOpen] = useState(false);
   return (
-    <main className={cn(style["bg-off-white"], "font-['Inter_Variable']")}>
+    <main
+      className={cn(style["bg-off-white"], "font-['Inter_Variable'] relative")}
+    >
       <header className="max-w-5xl mx-auto px-6 pb-6 pt-6 lg:pt-20 flex items-center justify-between">
         <img src={logo} />
         <nav className="hidden lg:block">
@@ -45,10 +50,49 @@ export function App() {
             </li>
           </ul>
         </nav>
-        <button className="block lg:hidden">
+        <button
+          className="block lg:hidden"
+          onClick={() => setIsMobileHeaderOpen((prev) => !prev)}
+        >
           <img src={menu} className="w-full h-full" />
         </button>
       </header>
+      {isMobileHeaderOpen && (
+        <div className="absolute top-0 right-0 inset-0 bg-black/60 flex">
+          <header
+            className={cn(
+              style["bg-off-white"],
+              "p-6 ml-auto min-w-[60%] flex flex-col gap-20",
+            )}
+          >
+            <button
+              className="ml-auto"
+              onClick={() => setIsMobileHeaderOpen((prev) => !prev)}
+            >
+              <img src={menuClose} className="w-full h-full" />
+            </button>
+            <nav>
+              <ul className="space-y-6 text-lg">
+                <li>
+                  <a className="font-medium cursor-pointer">Home</a>
+                </li>
+                <li>
+                  <a className="font-medium cursor-pointer">New</a>
+                </li>
+                <li>
+                  <a className="font-medium cursor-pointer">Popular</a>
+                </li>
+                <li>
+                  <a className="font-medium cursor-pointer">Trending</a>
+                </li>
+                <li>
+                  <a className="font-medium cursor-pointer">Categories</a>
+                </li>
+              </ul>
+            </nav>
+          </header>
+        </div>
+      )}
       <section className="px-6 pt-6 pb-6 lg:pb-20 max-w-5xl mx-auto grid lg:grid-cols-3 lg:grid-rows-3 gap-6">
         <article className="lg:col-span-2 lg:row-span-2">
           <div className="flex flex-col gap-6">
